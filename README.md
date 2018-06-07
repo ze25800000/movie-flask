@@ -69,3 +69,4 @@ if __name__ == "__main__":
 # 4-1 前台布局搭建
 ![4-1-1前台布局搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-1-1%E5%89%8D%E5%8F%B0%E5%B8%83%E5%B1%80%E6%90%AD%E5%BB%BA.jpg?raw=true)
 
+# 4-2 会员登录页面搭建
