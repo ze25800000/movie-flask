@@ -77,3 +77,6 @@ if __name__ == "__main__":
 
 # 4-4 会员中心页面搭建
 ![4-4-1会员中心页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-4-1%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E9%A1%B5%E9%9D%A2%E6%90%AD%E5%BB%BA.jpg?raw=true)
+
+# 4-5 电影列表页面搭建
+![4-5-1电影列表页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-5-1.jpg?raw=true)
