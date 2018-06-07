@@ -15,3 +15,7 @@
 # 3-5 评论及收藏电影数据模型设计
 ![3-5-1评论及收藏电影数据模型设计](https://github.com/ze25800000/movie-flask/blob/master/pic/3-5-1%E8%AF%84%E8%AE%BA%E5%8F%8A%E6%94%B6%E8%97%8F%E7%94%B5%E5%BD%B1%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1.jpg?raw=true)
 ![3-5-2定义收藏电影数据模型](https://github.com/ze25800000/movie-flask/blob/master/pic/3-5-2%E5%AE%9A%E4%B9%89%E6%94%B6%E8%97%8F%E7%94%B5%E5%BD%B1%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.jpg?raw=true)
+
+# 3-6 评论及收藏电影数据模型设计
+![3-6-1权限及角色数据模型设计](https://github.com/ze25800000/movie-flask/blob/master/pic/3-6-1%E6%9D%83%E9%99%90%E5%8F%8A%E8%A7%92%E8%89%B2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1.jpg?raw=true)
+![3-6-2定义角色数据模型](https://github.com/ze25800000/movie-flask/blob/master/pic/3-6-2%E5%AE%9A%E4%B9%89%E8%A7%92%E8%89%B2%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.jpg?raw=true)
