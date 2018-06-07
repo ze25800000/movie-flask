@@ -80,3 +80,6 @@ if __name__ == "__main__":
 
 # 4-5 电影列表页面搭建
 ![4-5-1电影列表页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-5-1.jpg?raw=true)
+
+# 4-6 电影搜索页面搭建
+![4-6-1电影搜索页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-6-1.jpg?raw=true)
