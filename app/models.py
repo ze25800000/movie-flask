@@ -22,7 +22,9 @@ class User(db.Model):
     face = db.Column(db.String(255), unique=True)
     addtime = db.Column(db.String(100), index=True, default=datetime.utcnow)
     uuid = db.Column(db.String(255), unique=True)
-    userlogs = db.relationship('Userlog', backref='user')
+    userlogs = db.relationship('Userlog', backref='user')  # 会员日志外键关联
+    comments = db.relationship('Comment', backref='user')  # 评论外键关联
+    moviecols = db.relationship('Moviecol', backref='user')  # 收藏外键关联
 
     def __repr__(self):
         return '<User %r>' % self.name
@@ -46,7 +48,7 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    movies = db.relationship("movie", backref='tag')  # 电影外键关联
+    movies = db.relationship("Movie", backref='tag')  # 电影外键关联
 
     def __repr__(self):
         return "<Tag %r>" % self.name
@@ -68,6 +70,8 @@ class Movie(db.Model):
     release_time = db.Column(db.Date)
     length = db.Column(db.String(100))
     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    comments = db.relationship("Comment", backref='movie')  # 评论外键关联
+    moviecols = db.relationship('Moviecol', backref='movie')  # 收藏外键关联
 
     def __repr__(self):
         return "<Movie %r>" % self.title
@@ -83,3 +87,28 @@ class Preview(db.Model):
 
     def __repr__(self):
         return "<Preview %r>" % self.title
+
+
+# 评论
+class Comment(db.Model):
+    __tablename__ = "comment"
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Comment %r>" % self.id
+
+
+# 电影收藏
+class Moviecol(db.Model):
+    __tablename__ = "moviecol"
+    id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Moviecol %r>" % self.id
