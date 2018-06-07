@@ -193,13 +193,4 @@ class Oplog(db.Model):
 
 
 if __name__ == "__main__":
-    from werkzeug.security import generate_password_hash
-
-    admin = Admin(
-        name="admin1",
-        pwd=generate_password_hash("yangze2"),
-        is_super=0,
-        role_id=1
-    )
-    db.session.add(admin)
-    db.session.commit()
+    db.create_all()
