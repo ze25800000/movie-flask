@@ -73,3 +73,7 @@ if __name__ == "__main__":
 ![4-2-1会员登录页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-2-1%E4%BC%9A%E5%91%98%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E6%90%AD%E5%BB%BA.jpg?raw=true)
 
 # 4-3 会员注册页面搭建
+![4-3-1会员注册页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-3-1%E4%BC%9A%E5%91%98%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E6%90%AD%E5%BB%BA.jpg?raw=true)
+
+# 4-4 会员中心页面搭建
+![4-4-1会员中心页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-4-1%E4%BC%9A%E5%91%98%E4%B8%AD%E5%BF%83%E9%A1%B5%E9%9D%A2%E6%90%AD%E5%BB%BA.jpg?raw=true)
