@@ -88,7 +88,10 @@ class MovieForm(FlaskForm):
         validators=[
             DataRequired("请上传文件")
         ],
-        description='文件'
+        description='文件',
+        render_kw={
+            "required": False
+        }
     )
     info = TextAreaField(
         label="简介",
@@ -107,7 +110,10 @@ class MovieForm(FlaskForm):
         validators=[
             DataRequired("请上传封面")
         ],
-        description='封面'
+        description='封面',
+        render_kw={
+            "required": False
+        }
     )
     star = SelectField(
         label="星级",

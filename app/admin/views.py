@@ -4,10 +4,14 @@ from flask import render_template, redirect, url_for, flash, session, request
 from app.admin.forms import LoginForm, TagForm, MovieForm
 from app.models import Admin, Tag, Movie
 from functools import wraps
-from app import db
+from app import db, app
+from werkzeug.utils import secure_filename
+import os
+import uuid
+import datetime
 
 
-# 装饰前
+# 登录装饰器
 def admin_login_req(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -16,6 +20,13 @@ def admin_login_req(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+
+# 修改文件名称
+def change_filename(filename):
+    fileinfo = os.path.splitext(filename)
+    filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4().hex) + fileinfo[-1]
+    return filename
 
 
 # 后台首页
@@ -120,10 +131,38 @@ def tag_edit(id=None):
 
 
 # 添加电影页面
-@admin.route("/movie/add/")
+@admin.route("/movie/add/", methods=['GET', 'POST'])
 @admin_login_req
 def movie_add():
     form = MovieForm()
+    if form.validate_on_submit():
+        data = form.data
+        file_url = secure_filename(form.url.data.filename)
+        file_logo = secure_filename(form.logo.data.filename)
+        if not os.path.exists((app.config['UP_DIR'])):
+            os.makedirs(app.config['UP_DIR'])
+            os.chmod(app.config['UP_DIR'], "rw")
+        url = change_filename(file_url)
+        logo = change_filename(file_logo)
+        form.url.data.save(app.config['UP_DIR'] + url)
+        form.logo.data.save(app.config['UP_DIR'] + logo)
+        movie = Movie(
+            title=data["title"],
+            url=url,
+            info=data["info"],
+            logo=logo,
+            star=int(data["star"]),
+            playnum=0,
+            commentnum=0,
+            tag_id=int(data["tag_id"]),
+            area=data["area"],
+            release_time=data["release_time"],
+            length=data["length"],
+        )
+        db.session.add(movie)
+        db.session.commit()
+        flash("添加电影成功", "ok")
+        return redirect(url_for('admin.movie_add'))
     return render_template('admin/movie_add.html', form=form)
 
 

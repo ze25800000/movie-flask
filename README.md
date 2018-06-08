@@ -322,3 +322,59 @@ def tag_edit(id=None):
 # 6-5 电影管理-添加电影页面表单生成
 ![6-5-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-5-1.jpg?raw=true)
 
+
+# 6-6,7 电影管理-添加电影-上传文件
+![6-6-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-6-1.jpg?raw=true)
+
+1. app下的__init__.py中添加上传路径
+```
+app.config["UP_DIR"] = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/uploads/")
+```
+2. 处理上传文件
+```
+from werkzeug.utils import secure_filename
+import os
+import uuid
+import datetime
+```
+添加修改文件名方法
+```
+def change_filename(filename):
+    fileinfo = os.path.splitext(filename)
+    filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4().hex) + fileinfo[-1]
+    return filename
+```
+保存上传文件
+```
+def movie_add():
+    form = MovieForm()
+    if form.validate_on_submit():
+        data = form.data
+        file_url = secure_filename(form.url.data.filename)
+        file_logo = secure_filename(form.logo.data.filename)
+        if not os.path.exists((app.config['UP_DIR'])):
+            os.makedirs(app.config['UP_DIR'])
+            os.chmod(app.config['UP_DIR'], "rw")
+        url = change_filename(file_url)
+        logo = change_filename(file_logo)
+        form.url.data.save(app.config['UP_DIR'] + url)
+        form.logo.data.save(app.config['UP_DIR'] + logo)
+```
+存入数据库
+```
+movie = Movie(
+    title=data["title"],
+    url=url,
+    info=data["info"],
+    logo=logo,
+    star=int(data["star"]),
+    playnum=0,
+    commentnum=0,
+    tag_id=int(data["tag_id"]),
+    area=data["area"],
+    release_time=data["release_time"],
+    length=data["length"],
+)
+db.session.add(movie)
+db.session.commit()
+```
