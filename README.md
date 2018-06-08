@@ -93,3 +93,6 @@ if __name__ == "__main__":
 
 # 5-1 后台页面搭建
 ![5-1-1后台页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-1-1.jpg?raw=true)
+
+# 5-2 后台布局搭建
+![5-2-1后台页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-2-1.jpg?raw=true)
