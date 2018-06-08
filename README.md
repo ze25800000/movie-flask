@@ -132,3 +132,54 @@ if __name__ == "__main__":
 
 # 5-14 管理员管理页面搭建
 ![5-14-1管理员管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-14-1.jpg?raw=true)
+
+# 6-1 管理员登录
+![6-1-1管理员登录](https://github.com/ze25800000/movie-flask/blob/master/pic/6-1-1.jpg?raw=true)
+![6-1-2管理员登录](https://github.com/ze25800000/movie-flask/blob/master/pic/6-1-2.jpg?raw=true)
+- 安装flask_wtf pip install flask_wtf
+```
+app.config["SECRET_KEY"] = "2240db928b0b42dea0472e4e1517af5a"
+
+```
+html中添加{{ form.csrf_token }}
+```
+<form method="POST" id="form-data">
+    {{ form.csrf_token }}
+    <div class="form-group has-feedback">
+        {{ form.account }}
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        {% for err in form.account.errors %}
+        <div class="col-md-12">
+            <span style="color:red">{{ err }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-group has-feedback">
+        {{ form.pwd }}
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        {% for err in form.pwd.errors %}
+        <div class="col-md-12">
+            <span style="color:red">{{ err }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+        </div>
+        <div class="col-xs-4">
+            {{ form.submit }}
+        </div>
+    </div>
+</form>
+```
+- 使用装饰器进行访问控制
+```
+def admin_login_req(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "admin" not in session:
+            return redirect(url_for("admin.login", next=request.url))
+        return f(*args, **kwargs)
+
+    return decorated_function
+```
