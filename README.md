@@ -120,3 +120,6 @@ if __name__ == "__main__":
 
 # 5-10 收藏管理页面搭建
 ![5-10-1收藏管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-10-1.jpg?raw=true)
+
+# 5-11 操作日志管理页面搭建
+![5-11-1操作日志管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-11-1.jpg?raw=true)
