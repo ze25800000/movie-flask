@@ -129,3 +129,6 @@ if __name__ == "__main__":
 
 # 5-13 权限管理页面搭建
 ![5-13-1权限管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-13-1.jpg?raw=true)
+
+# 5-14 管理员管理页面搭建
+![5-14-1管理员管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-14-1.jpg?raw=true)
