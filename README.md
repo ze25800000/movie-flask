@@ -96,3 +96,6 @@ if __name__ == "__main__":
 
 # 5-2 后台布局搭建
 ![5-2-1后台页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-2-1.jpg?raw=true)
+
+# 5-3 修改密码界面搭建
+![5-3-1修改密码界面搭建](https://github.com/ze35800000/movie-flask/blob/master/pic/5-3-1.jpg?raw=true)
