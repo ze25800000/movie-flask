@@ -99,3 +99,6 @@ if __name__ == "__main__":
 
 # 5-3 修改密码界面搭建
 ![5-3-1修改密码界面搭建](https://github.com/ze35800000/movie-flask/blob/master/pic/5-3-1.jpg?raw=true)
+
+# 5-4 控制面板页面搭建
+![5-4-1控制面板页面搭建](https://github.com/ze35800000/movie-flask/blob/master/pic/5-4-1.jpg?raw=true)
