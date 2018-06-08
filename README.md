@@ -318,3 +318,7 @@ def tag_edit(id=None):
         return redirect(url_for('admin.tag_edit', id=id))
     return render_template('admin/tag_edit.html', form=form, tag=tag)
 ```
+
+# 6-5 电影管理-添加电影页面表单生成
+![6-5-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-5-1.jpg?raw=true)
+
