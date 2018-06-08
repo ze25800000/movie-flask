@@ -183,3 +183,62 @@ def admin_login_req(f):
 
     return decorated_function
 ```
+
+# 6-2 标签管理
+![6-2-1标签管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-2-1.jpg?raw=true)
+- 数据入库操作
+```
+view.py
+@admin.route("/tag/add/", methods=["GET", "POST"])
+@admin_login_req
+def tag_add():
+    form = TagForm()
+    if form.validate_on_submit():
+        data = form.data
+        tag = Tag.query.filter_by(name=data['name']).count()
+        if tag == 1:
+            flash("名称已经存在", "err")
+            return redirect(url_for('admin.tag_add'))
+        tag = Tag(
+            name=data['name']
+        )
+        db.session.add(tag)
+        db.session.commit()
+        flash('添加成功', 'ok')
+        return redirect(url_for('admin.tag_add'))
+    return render_template('admin/tag_add.html', form=form)
+```
+- html处理
+```
+<form role="form" method="post">
+    {% for msg in get_flashed_messages(category_filter=['ok']) %}
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check">操作成功 !</i></h4>
+        {{ msg }}
+    </div>
+    {% endfor %}
+    {% for msg in get_flashed_messages(category_filter=['err']) %}
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check">操作失败 !</i></h4>
+        {{ msg }}
+    </div>
+    {% endfor %}
+    <div class="box-body">
+        <div class="form-group">
+            <label for="input_name">标签名称</label>
+            {{ form.name }}
+            {% for err in form.name.errors %}
+            <div class="col-md-12">
+                <span style="color: red;">{{ err }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="box-footer">
+        {{ form.submit }}
+        {{ form.csrf_token }}
+    </div>
+</form>
+```
