@@ -242,3 +242,46 @@ def tag_add():
     </div>
 </form>
 ```
+# 6-3 标签列表展示-分页
+```
+{% macro page(data,url) -%}
+    {% if data %}
+    <ul class="pagination pagination-sm no-margin pull-right">
+        <li><a href="{{ url_for(url,page=1) }}">首页</a></li>
+
+        {% if data.has_prev %}
+            <li><a href="{{ url_for(url,page=data.prev_num) }}">上一页</a></li>
+        {% else %}
+            <li><a href="javascript:;" class="disabled">上一页</a></li>
+        {% endif %}
+
+        {% for v in data.iter_pages() %}
+            {% if v==data.page %}
+                <li class="active"><a href="javascript:;">{{ v }}</a></li>
+            {% else %}
+                <li><a href="{{ url_for(url,page=v) }}">{{ v }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if data.has_next %}
+            <li><a href="{{ url_for(url,page=data.next_num) }}">下一页</a></li>
+        {% else %}
+            <li><a href="javascript:;" class="disabled">下一页</a></li>
+        {% endif %}
+
+        <li><a href="{{ url_for(url,page=data.pages) }}">尾页</a></li>
+    </ul>
+    {% endif %}
+{%- endmacro %}
+```
+- 模板中调用
+头部引入
+```
+{% import 'ui/admin_page.html' as pg %}
+```
+分页处引入
+```
+<div class="box-footer clearfix">
+    {{ pg.page(page_data,'admin.tag_list') }}
+</div>
+```

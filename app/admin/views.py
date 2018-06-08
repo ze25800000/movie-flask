@@ -70,10 +70,15 @@ def tag_add():
     return render_template('admin/tag_add.html', form=form)
 
 
-@admin.route("/tag/list/")
+@admin.route("/tag/list/<int:page>/", methods=['GET'])
 @admin_login_req
-def tag_list():
-    return render_template('admin/tag_list.html')
+def tag_list(page=None):
+    if page == None:
+        page = 1
+    page_data = Tag.query.order_by(
+        Tag.addtime.desc()
+    ).paginate(page=page, per_page=10)
+    return render_template('admin/tag_list.html', page_data=page_data)
 
 
 @admin.route("/movie/add/")
