@@ -111,3 +111,6 @@ if __name__ == "__main__":
 
 # 5-7 上映预告管理页面搭建
 ![5-7-1上映预告管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-7-1.jpg?raw=true)
+
+# 5-8 会员管理页面搭建
+![5-8-1会员管理页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-8-1.jpg?raw=true)
