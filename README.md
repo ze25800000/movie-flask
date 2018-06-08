@@ -285,3 +285,36 @@ def tag_add():
     {{ pg.page(page_data,'admin.tag_list') }}
 </div>
 ```
+# 6-4 标签删除、编辑操作
+- 标签删除
+```
+@admin.route("/tag/del/<int:id>/", methods=['GET'])
+@admin_login_req
+def tag_del(id=None):
+    tag = Tag.query.filter_by(id=id).first_or_404()
+    db.session.delete(tag)
+    db.session.commit()
+    flash('删除标签成功！', 'ok')
+    return redirect(url_for('admin.tag_list', page=1))
+
+```
+- 标签编辑
+```
+@admin.route("/tag/edit/<int:id>/", methods=['GET', 'POST'])
+@admin_login_req
+def tag_edit(id=None):
+    form = TagForm()
+    tag = Tag.query.get_or_404(id)
+    if form.validate_on_submit():
+        data = form.data
+        tag_count = Tag.query.filter_by(name=data['name']).count()
+        if tag.name != data['name'] and tag_count == 1:
+            flash("名称已经存在", "err")
+            return redirect(url_for('admin.tag_add', id=id))
+        tag.name = data['name']
+        db.session.add(tag)
+        db.session.commit()
+        flash('修改标签成功', 'ok')
+        return redirect(url_for('admin.tag_edit', id=id))
+    return render_template('admin/tag_edit.html', form=form, tag=tag)
+```
