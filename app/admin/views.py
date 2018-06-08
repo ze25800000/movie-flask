@@ -167,10 +167,28 @@ def movie_add():
 
 
 # 电影列表页面
-@admin.route("/movie/list/")
+@admin.route("/movie/list/<int:page>", methods=["GET"])
 @admin_login_req
-def movie_list():
-    return render_template('admin/movie_list.html')
+def movie_list(page=None):
+    if page == None:
+        page = 1
+    page_data = Movie.query.join(Tag).filter(
+        Tag.id == Movie.tag_id
+    ).order_by(
+        Movie.addtime.desc()
+    ).paginate(page=page, per_page=10)
+    return render_template('admin/movie_list.html', page_data=page_data)
+
+
+# 电影删除
+@admin.route("/movie/del/<int:id>", methods=["GET"])
+@admin_login_req
+def movie_del(id=None):
+    movie = Movie.query.get_or_404(int(id))
+    db.session.delete(movie)
+    db.session.commit()
+    flash("删除电影成功", "ok")
+    return redirect(url_for('admin.movie_list', page=1))
 
 
 # 添加上映电影页面

@@ -324,8 +324,6 @@ def tag_edit(id=None):
 
 
 # 6-6,7 电影管理-添加电影-上传文件
-![6-6-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-6-1.jpg?raw=true)
-
 1. app下的__init__.py中添加上传路径
 ```
 app.config["UP_DIR"] = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/uploads/")
@@ -378,3 +376,20 @@ movie = Movie(
 db.session.add(movie)
 db.session.commit()
 ```
+
+6-8 电影管理-列表、删除
+- 电影列表导航修改链接
+```
+<a href="{{ url_for('admin.movie_list',page=1) }}">
+    <i class="fa fa-circle-o"></i> 电影列表
+</a>
+```
+- 关联查询join(Tag)、filter
+```
+    page_data = Movie.query.join(Tag).filter(
+        Tag.id == Movie.tag_id
+    ).order_by(
+        Movie.addtime.desc()
+    ).paginate(page=page, per_page=10)
+```
+6-9 电影管理-编辑
