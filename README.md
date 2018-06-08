@@ -88,5 +88,8 @@ if __name__ == "__main__":
 ![4-7-1电影搜索页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-7-1.jpg?raw=true)
 
 # 4-8 404页面搭建
-在app目录下添加
+在app目录__init__.py下添加
 ![4-8-1404页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/4-8-1.jpg?raw=true)
+
+# 5-1 后台页面搭建
+![5-1-1后台页面搭建](https://github.com/ze25800000/movie-flask/blob/master/pic/5-1-1.jpg?raw=true)
