@@ -453,3 +453,6 @@ def movie_edit(id=None):
 ```
 6-10 预告管理-添加，列表，删除，编辑
 ![6-10-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-10-1.jpg?raw=true)
+
+6-11 会员管理-列表，删除，查看
+![6-11-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-11-1.jpg?raw=true)
