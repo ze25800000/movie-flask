@@ -393,3 +393,60 @@ db.session.commit()
     ).paginate(page=page, per_page=10)
 ```
 6-9 电影管理-编辑
+- 下拉框、选择框需要提前给form赋值
+```
+if request.method == 'GET':
+    form.info.data = movie.info
+    form.tag_id.data = movie.tag_id
+    form.star.data = movie.star
+```
+- 编辑电影
+```
+# 电影编辑
+@admin.route("/movie/edit/<int:id>/", methods=['GET', 'POST'])
+@admin_login_req
+def movie_edit(id=None):
+    form = MovieForm()
+    form.url.validators = []
+    form.logo.validators = []
+    movie = Movie.query.get_or_404(int(id))
+    if request.method == 'GET':
+        form.info.data = movie.info
+        form.tag_id.data = movie.tag_id
+        form.star.data = movie.star
+    if form.validate_on_submit():
+        data = form.data
+        # 判断片名是否存在
+        movie_count = Movie.query.filter_by(title=data['title']).count()
+        if movie_count == 1 and movie.title == data['title']:
+            flash('片名已经存在', 'err')
+            return redirect(url_for('admin.movie_edit', id=int(id)))
+        # 判断文件是否存在
+        if not os.path.exists((app.config['UP_DIR'])):
+            os.makedirs(app.config['UP_DIR'])
+            os.chmod(app.config['UP_DIR'], "rw")
+        # 判断是否含有属性filename，及判断是否重新上传了视频
+        if hasattr(form.url.data, 'filename'):
+            file_url = secure_filename(form.url.data.filename)
+            movie.url = change_filename(file_url)
+            form.url.data.save(app.config['UP_DIR'] + movie.url)
+
+        # 判断是否含有属性filename，及判断是否重新上传了封面
+        if hasattr(form.logo.data, 'filename'):
+            file_logo = secure_filename(form.logo.data.filename)
+            movie.logo = change_filename(file_logo)
+            form.logo.data.save(app.config['UP_DIR'] + movie.logo)
+
+        movie.title = data['title']
+        movie.info = data['info']
+        movie.star = data['star']
+        movie.tag_id = data['tag_id']
+        movie.area = data['area']
+        movie.length = data['length']
+        movie.release_time = data['release_time']
+        db.session.add(movie)
+        db.session.commit()
+        flash('修改电影成功', 'ok')
+        return redirect(url_for('admin.movie_edit', id=int(id)))
+    return render_template('admin/movie_edit.html', form=form, movie=movie)
+```
