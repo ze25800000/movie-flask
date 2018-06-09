@@ -456,3 +456,19 @@ def movie_edit(id=None):
 
 6-11 会员管理-列表，删除，查看
 ![6-11-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-11-1.jpg?raw=true)
+
+6-12 评论管理-列表，删除
+![6-12-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-12-1.jpg?raw=true)
+- 关联查询
+```
+page_data = Comment.query.join(
+        Movie
+    ).join(
+        User
+    ).filter(
+        Movie.id == Comment.movie_id,
+        User.id == Comment.user_id
+    ).order_by(
+        Comment.id.desc()
+    ).paginate(page=page, per_page=10)
+```
