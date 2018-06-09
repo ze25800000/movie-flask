@@ -399,6 +399,7 @@ if request.method == 'GET':
     form.info.data = movie.info
     form.tag_id.data = movie.tag_id
     form.star.data = movie.star
+
 ```
 - 编辑电影
 ```
@@ -450,3 +451,5 @@ def movie_edit(id=None):
         return redirect(url_for('admin.movie_edit', id=int(id)))
     return render_template('admin/movie_edit.html', form=form, movie=movie)
 ```
+6-10 预告管理-添加，列表，删除，编辑
+![6-10-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-10-1.jpg?raw=true)
