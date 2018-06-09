@@ -542,3 +542,38 @@ def pwd():
         return redirect(url_for('admin.logout'))
     return render_template('admin/pwd.html', form=form)
 ```
+
+6-15 日志管理
+![6-15-1](https://github.com/ze25800000/movie-flask/blob/master/pic/6-15-1.jpg?raw=true)
+- 上下应用处理器
+```
+# admin/views.py添加
+# 上下应用处理器
+@admin.context_processor
+def tpl_extra():
+    data = dict(
+        online_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+    return data
+# 在html中直接使用
+{{ online_time }}
+```
+- 操作日志
+```
+oplog = Oplog(
+    admin_id=session["admin_id"],
+    ip=request.remote_addr,
+    reason="添加标签%s" % data["name"]
+)
+db.session.add(oplog)
+db.session.commit()
+```
+- 管理员登陆日志
+```
+adminlog = Adminlog(
+    admin_id=admin.id,
+    ip=request.remote_addr
+)
+db.session.add(adminlog)
+db.session.commit()
+```
