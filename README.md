@@ -577,3 +577,6 @@ adminlog = Adminlog(
 db.session.add(adminlog)
 db.session.commit()
 ```
+
+7-1 权限管理-添加、列表、删除、编辑
+![7-1-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-1-1.jpg?raw=true)
