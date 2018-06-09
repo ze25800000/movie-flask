@@ -472,3 +472,6 @@ page_data = Comment.query.join(
         Comment.id.desc()
     ).paginate(page=page, per_page=10)
 ```
+
+6-13 收藏管理-列表，删除
+![6-13-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-13-1.jpg?raw=true)
