@@ -150,6 +150,7 @@ class Admin(db.Model):
     is_super = db.Column(db.SmallInteger)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))  # 所属角色
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
+    role = db.relationship("Role", backref='admin')  # 角色外键关联
     adminlogs = db.relationship("Adminlog", backref='admin')  # 管理员日志外键关联
     oplogs = db.relationship("Oplog", backref='admin')  # 管理员操作日志外键关联
 

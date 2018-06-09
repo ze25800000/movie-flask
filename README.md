@@ -377,7 +377,7 @@ db.session.add(movie)
 db.session.commit()
 ```
 
-6-8 电影管理-列表、删除
+# 6-8 电影管理-列表、删除
 - 电影列表导航修改链接
 ```
 <a href="{{ url_for('admin.movie_list',page=1) }}">
@@ -392,7 +392,7 @@ db.session.commit()
         Movie.addtime.desc()
     ).paginate(page=page, per_page=10)
 ```
-6-9 电影管理-编辑
+# 6-9 电影管理-编辑
 - 下拉框、选择框需要提前给form赋值
 ```
 if request.method == 'GET':
@@ -451,13 +451,13 @@ def movie_edit(id=None):
         return redirect(url_for('admin.movie_edit', id=int(id)))
     return render_template('admin/movie_edit.html', form=form, movie=movie)
 ```
-6-10 预告管理-添加，列表，删除，编辑
+# 6-10 预告管理-添加，列表，删除，编辑
 ![6-10-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-10-1.jpg?raw=true)
 
-6-11 会员管理-列表，删除，查看
+# 6-11 会员管理-列表，删除，查看
 ![6-11-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-11-1.jpg?raw=true)
 
-6-12 评论管理-列表，删除
+# 6-12 评论管理-列表，删除
 ![6-12-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-12-1.jpg?raw=true)
 - 关联查询
 ```
@@ -473,10 +473,10 @@ page_data = Comment.query.join(
     ).paginate(page=page, per_page=10)
 ```
 
-6-13 收藏管理-列表，删除
+# 6-13 收藏管理-列表，删除
 ![6-13-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-13-1.jpg?raw=true)
 
-6-14 修改密码
+# 6-14 修改密码
 ![6-14-1](https://github.com/ze25800000/movie-flask/blob/master/pic/6-14-1.jpg?raw=true)
 - forms.py中增加类PwdForm
 ```
@@ -543,7 +543,7 @@ def pwd():
     return render_template('admin/pwd.html', form=form)
 ```
 
-6-15 日志管理
+# 6-15 日志管理
 ![6-15-1](https://github.com/ze25800000/movie-flask/blob/master/pic/6-15-1.jpg?raw=true)
 - 上下应用处理器
 ```
@@ -578,10 +578,10 @@ db.session.add(adminlog)
 db.session.commit()
 ```
 
-7-1 权限管理-添加、列表、删除、编辑
+# 7-1 权限管理-添加、列表、删除、编辑
 ![7-1-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-1-1.jpg?raw=true)
 
-7-2 角色管理-添加、列表、删除、编辑
+# 7-2 角色管理-添加、列表、删除、编辑
 ![7-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-2-1.jpg?raw=true)
 - forms.py中使用
 ```
@@ -615,3 +615,6 @@ role = Role(
 if request.method == "GET":
     form.auths.data = list(map(lambda v: int(v), role.auths.split(",")))
 ```
+
+# 7-3 管理员管理-添加、列表
+![7-3-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-3-1.jpg?raw=true)
