@@ -580,3 +580,38 @@ db.session.commit()
 
 7-1 权限管理-添加、列表、删除、编辑
 ![7-1-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-1-1.jpg?raw=true)
+
+7-2 角色管理-添加、列表、删除、编辑
+![7-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-2-1.jpg?raw=true)
+- forms.py中使用
+```
+auth_list = Auth.query.all()
+...
+...
+
+auths = SelectMultipleField(
+    label="权限列表",
+    validators=[
+        DataRequired('请选择权限')
+    ],
+    coerce=int,
+    choices=[(v.id, v.name) for v in auth_list],
+    description="权限列表",
+    render_kw={
+        "class": "form-control",
+        "required": False
+    }
+)
+```
+- 列表转字符串
+```
+role = Role(
+    name=data['name'],
+    auths=",".join(map(lambda v: str(v), data['auths']))
+)
+```
+- 字符串转列表
+```
+if request.method == "GET":
+    form.auths.data = list(map(lambda v: int(v), role.auths.split(",")))
+```
