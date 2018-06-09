@@ -475,3 +475,70 @@ page_data = Comment.query.join(
 
 6-13 收藏管理-列表，删除
 ![6-13-1电影管理](https://github.com/ze25800000/movie-flask/blob/master/pic/6-13-1.jpg?raw=true)
+
+6-14 修改密码
+![6-14-1](https://github.com/ze25800000/movie-flask/blob/master/pic/6-14-1.jpg?raw=true)
+- forms.py中增加类PwdForm
+```
+class PwdForm(FlaskForm):
+    old_pwd = PasswordField(
+        label="旧密码",
+        validators=[
+            DataRequired("请输入旧密码！")
+        ],
+        description="旧密码",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入旧密码！",
+            "required": False
+        }
+    )
+    new_pwd = PasswordField(
+        label="新密码",
+        validators=[
+            DataRequired("请输入新密码！")
+        ],
+        description="新密码",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入新密码！",
+            "required": False
+        }
+    )
+    submit = SubmitField(
+        '编辑',
+        render_kw={
+            "class": "btn btn-primary"
+        }
+    )
+    # 调用模型中admin的方法check_pwd，验证旧密码是否正确
+    def validate_old_pwd(self, field):
+        from flask import session
+        pwd = field.data
+        name = session['admin']
+        admin = Admin.query.filter_by(
+            name=name
+        ).first()
+        if not admin.check_pwd(pwd):
+            raise ValidationError('旧密码错误')
+```
+- views.py中
+```
+# 修改密码页面
+@admin.route("/pwd/", methods=['GET', 'POST'])
+@admin_login_req
+def pwd():
+    form = PwdForm()
+    if form.validate_on_submit():
+        data = form.data
+        admin = Admin.query.filter_by(name=session['admin']).first()
+        # 引入generate_password_hash，将密码转换
+        from werkzeug.security import generate_password_hash
+        admin.pwd = generate_password_hash(data['new_pwd'])
+        db.session.add(admin)
+        db.session.commit()
+        flash('修改密码成功，请重新登录！', 'ok')
+        # 修改密码成功后让用户重新登录
+        return redirect(url_for('admin.logout'))
+    return render_template('admin/pwd.html', form=form)
+```
