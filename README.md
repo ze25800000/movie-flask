@@ -618,3 +618,28 @@ if request.method == "GET":
 
 # 7-3 管理员管理-添加、列表
 ![7-3-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-3-1.jpg?raw=true)
+
+# 7-4 访问权限控制
+- 定义权限装饰器
+![7-4-1](https://github.com/ze25800000/movie-flask/blob/master/pic/7-4-1.jpg?raw=true)
+```
+def admin_auth(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        admin = Admin.query.join(
+            Role
+        ).filter(
+            Role.id == Admin.role_id,
+            Admin.id == session['admin_id']
+        ).first()
+        auths = admin.role.auths
+        auths = list(map(lambda v: int(v), auths.split(",")))
+        auth_list = Auth.query.all()
+        urls = [v.url for v in auth_list for val in auths if val == v.id]
+        rule = request.url_rule
+        if str(rule) not in urls:
+            abort(404)
+        return f(*args, **kwargs)
+
+    return decorated_function
+```
