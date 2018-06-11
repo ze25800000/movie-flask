@@ -767,3 +767,14 @@ def user_login_req(f):
 
 # 9-2 标签筛选、电影分页
 ![9-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-2-1.jpg?raw=true)
+
+# 9-3 电影搜索、搜索分页
+![9-3-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-3-1.jpg?raw=true)
+- 使用filter模糊搜索
+```
+page_data = Movie.query.filter(
+        Movie.title.ilike('%' + key + '%')
+    ).order_by(
+        Movie.addtime.desc()
+    ).paginate(page=page, per_page=10)
+```
