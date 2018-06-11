@@ -752,3 +752,6 @@ def user_login_req(f):
 
     return decorated_function
 ```
+
+# 8-3 修改会员资料
+![8-3-1](https://github.com/ze25800000/movie-flask/blob/master/pic/8-3-1.jpg?raw=true)

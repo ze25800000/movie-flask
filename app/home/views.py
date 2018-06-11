@@ -2,11 +2,21 @@
 from . import home
 from flask import render_template, redirect, url_for, flash, session, request
 from functools import wraps
-from app.home.forms import RegistForm, LoginForm
+from app.home.forms import RegistForm, LoginForm, UserdetailForm
 from app.models import User, Userlog
-from app import db
+from app import db, app
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
 import uuid
+import os
+import datetime
+
+
+# 修改文件名称
+def change_filename(filename):
+    fileinfo = os.path.splitext(filename)
+    filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4().hex) + fileinfo[-1]
+    return filename
 
 
 # 登录装饰器
@@ -20,6 +30,7 @@ def user_login_req(f):
     return decorated_function
 
 
+# 会员登录
 @home.route("/login/", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -41,6 +52,7 @@ def login():
     return render_template("home/login.html", form=form)
 
 
+# 会员退出
 @home.route("/logout/")
 @user_login_req
 def logout():
@@ -49,6 +61,7 @@ def logout():
     return redirect(url_for("home.login"))
 
 
+# 会员注册
 @home.route("/regist/", methods=['GET', 'POST'])
 def regist():
     form = RegistForm()
@@ -67,10 +80,54 @@ def regist():
     return render_template("home/regist.html", form=form)
 
 
-@home.route("/user/")
+# 会员修改资料
+@home.route("/user/", methods=['GET', 'POST'])
 @user_login_req
 def user():
-    return render_template("home/user.html")
+    form = UserdetailForm()
+    user = User.query.get(int(session['user_id']))
+    form.face.validators = []
+
+    if request.method == 'GET':
+        form.name.data = user.name
+        form.email.data = user.email
+        form.phone.data = user.phone
+        form.info.data = user.info
+
+    if form.validate_on_submit():
+        data = form.data
+        if hasattr(form.face.data, 'filename'):
+            file_face = secure_filename(form.face.data.filename)
+            if not os.path.exists((app.config['FC_DIR'])):
+                os.makedirs(app.config['FC_DIR'])
+                os.chmod(app.config['FC_DIR'], "rw")
+            user.face = change_filename(file_face)
+            form.face.data.save(app.config['FC_DIR'] + user.face)
+
+        name_count = User.query.filter_by(name=data['name']).count()
+        if data['name'] != user.name and name_count == 1:
+            flash('用户名已经存在', 'err')
+            return redirect(url_for('home.user'))
+
+        email_count = User.query.filter_by(email=data['email']).count()
+        if data['email'] != user.email and email_count == 1:
+            flash('邮箱已经存在', 'err')
+            return redirect(url_for('home.user'))
+
+        phone_count = User.query.filter_by(phone=data['phone']).count()
+        if data['phone'] != user.phone and phone_count == 1:
+            flash('电话号码已经存在', 'err')
+            return redirect(url_for('home.user'))
+
+        user.name = data['name']
+        user.email = data['email']
+        user.phone = data['phone']
+        user.info = data['info']
+        db.session.add(user)
+        db.session.commit()
+        flash('修改会员信息成功', 'ok')
+        return redirect(url_for('home.user'))
+    return render_template("home/user.html", form=form, user=user)
 
 
 @home.route("/pwd/")
