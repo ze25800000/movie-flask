@@ -778,3 +778,6 @@ page_data = Movie.query.filter(
         Movie.addtime.desc()
     ).paginate(page=page, per_page=10)
 ```
+
+# 9-4 电影详情、电影播放
+![9-4-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-4-1.jpg?raw=true)
