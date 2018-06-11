@@ -764,3 +764,6 @@ def user_login_req(f):
 
 # 9-1 上映预告
 ![9-1-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-1-1.jpg?raw=true)
+
+# 9-2 标签筛选、电影分页
+![9-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-2-1.jpg?raw=true)
