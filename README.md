@@ -758,3 +758,6 @@ def user_login_req(f):
 
 # 8-4 修改密码
 ![8-4-1](https://github.com/ze25800000/movie-flask/blob/master/pic/8-4-1.jpg?raw=true)
+
+# 8-5 会员登录日志
+![8-5-1](https://github.com/ze25800000/movie-flask/blob/master/pic/8-5-1.jpg?raw=true)
