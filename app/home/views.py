@@ -3,7 +3,7 @@ from . import home
 from flask import render_template, redirect, url_for, flash, session, request
 from functools import wraps
 from app.home.forms import RegistForm, LoginForm, UserdetailForm, PwdForm
-from app.models import User, Userlog
+from app.models import User, Userlog, Preview
 from app import db, app
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
@@ -175,9 +175,10 @@ def index():
     return render_template('home/index.html')
 
 
-@home.route("/animation/")
+@home.route("/animation/", methods=['GET'])
 def animation():
-    return render_template("home/animation.html")
+    data = Preview.query.all()
+    return render_template("home/animation.html", data=data)
 
 
 @home.route("/search/")
