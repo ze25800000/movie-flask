@@ -781,3 +781,18 @@ page_data = Movie.query.filter(
 
 # 9-4 电影详情、电影播放
 ![9-4-1](https://github.com/ze25800000/movie-flask/blob/master/pic/9-4-1.jpg?raw=true)
+
+# 10-1 电影评论、统计
+![10-1-1](https://github.com/ze25800000/movie-flask/blob/master/pic/10-1-1.jpg?raw=true)
+- 页面中判断是否已登录
+```
+{% if "user" not in session %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <strong>请先<a href="{{ url_for('home.login') }}" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+</div>
+{% endif %}
+```
