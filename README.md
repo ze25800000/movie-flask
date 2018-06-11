@@ -738,3 +738,17 @@ class RegistForm(FlaskForm):
         if user == 1:
             raise ValidationError('手机号已存在')
 ```
+
+# 8-2 会员登录
+![8-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/8-2-1.jpg?raw=true)
+- 登录装饰器
+```
+def user_login_req(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user" not in session:
+            return redirect(url_for("home.login", next=request.url))
+        return f(*args, **kwargs)
+
+    return decorated_function
+```
