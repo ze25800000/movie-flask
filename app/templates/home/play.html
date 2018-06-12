@@ -117,7 +117,7 @@
                 </div>
                 {% endif %}
                 <ol class="breadcrumb" style="margin-top:6px;">
-                    <li>全部评论(5)</li>
+                    <li>全部评论({{ movie.commentnum }})</li>
                 </ol>
                 {% if "user" in session %}
                 {% for msg in get_flashed_messages(category_filter=["err"]) %}
@@ -126,7 +126,7 @@
                 {% for msg in get_flashed_messages(category_filter=["ok"]) %}
                 <p style="color:red">{{ msg }}</p>
                 {% endfor %}
-                <form role="form" style="margin-bottom:6px;" method="post">
+                <form role="form" style="overflow: hidden;margin-bottom:6px;" method="post">
                     <div class="form-group">
                         <div>
                             <label for="input_content">{{ form.content.label }}</label>
@@ -142,6 +142,9 @@
                     {{ form.submit }}
                     &nbsp;
                     <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
+                    <div class="col-md-12">
+                        <span style="color:green" id="show_col_msg"></span>
+                    </div>
                 </form>
                 {% endif %}
                 <ul class="commentList">
@@ -219,4 +222,23 @@
     });
 </script>
 <!--播放页面-->
+<script>
+    $(document).on('click', '#btn-col', function () {
+        var mid = "{{ movie.id }}"
+        var uid = "{{ session['user_id'] }}"
+        $.ajax({
+            url: "{{ url_for('home.moviecol_add') }}",
+            type: "GET",
+            data: "mid=" + mid + "&uid=" + uid,
+            success: function (res) {
+                res = JSON.parse(res)
+                if (res.ok === 0) {
+                    $('#show_col_msg').html('已收藏')
+                } else if (res.ok === 1) {
+                    $('#show_col_msg').html('收藏成功')
+                }
+            }
+        })
+    })
+</script>
 {% endblock%}

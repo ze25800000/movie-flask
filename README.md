@@ -796,3 +796,6 @@ page_data = Movie.query.filter(
 </div>
 {% endif %}
 ```
+
+# 10-2 电影收藏
+![10-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/10-2-1.jpg?raw=true)

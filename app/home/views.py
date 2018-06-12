@@ -3,7 +3,7 @@ from . import home
 from flask import render_template, redirect, url_for, flash, session, request
 from functools import wraps
 from app.home.forms import RegistForm, LoginForm, UserdetailForm, PwdForm, CommentForm
-from app.models import User, Userlog, Preview, Tag, Movie, Comment
+from app.models import User, Userlog, Preview, Tag, Movie, Comment, Moviecol
 from app import db, app
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
@@ -176,10 +176,47 @@ def loginlog(page=None):
     return render_template("home/loginlog.html", page_data=page_data)
 
 
-@home.route("/moviecol/")
+# 添加电影收藏
+@home.route("/moviecol/add", methods=['GET'])
 @user_login_req
-def moviecol():
-    return render_template("home/moviecol.html")
+def moviecol_add():
+    uid = request.args.get("uid", "")
+    mid = request.args.get("mid", "")
+    moviecol = Moviecol.query.filter_by(
+        user_id=int(uid),
+        movie_id=int(mid)
+    ).count()
+    if moviecol == 1:
+        data = dict(ok=0)
+    if moviecol == 0:
+        moviecol = Moviecol(
+            user_id=int(uid),
+            movie_id=int(mid)
+        )
+        db.session.add(moviecol)
+        db.session.commit()
+        data = dict(ok=1)
+    import json
+    return json.dumps(data)
+
+
+# 电影收藏
+@home.route("/moviecol/<int:page>/", methods=['GET'])
+@user_login_req
+def moviecol(page=None):
+    if page == None:
+        page = 1
+    page_data = Moviecol.query.join(
+        Movie
+    ).join(
+        User
+    ).filter(
+        Movie.id == Moviecol.movie_id,
+        User.id == int(session['user_id'])
+    ).order_by(
+        Moviecol.addtime.desc()
+    ).paginate(page=page, per_page=10)
+    return render_template("home/moviecol.html", page_data=page_data)
 
 
 @home.route("/<int:page>/", methods=['GET'])
@@ -294,6 +331,8 @@ def play(id=None, page=None):
         db.session.add(comment)
         db.session.commit()
         movie.commentnum = movie.commentnum + 1
+        db.session.add(movie)
+        db.session.commit()
         flash("评论成功", 'ok')
         return redirect(url_for('home.play', id=movie.id, page=1))
     db.session.add(movie)
