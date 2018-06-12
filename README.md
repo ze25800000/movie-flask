@@ -799,3 +799,64 @@ page_data = Movie.query.filter(
 
 # 10-2 电影收藏
 ![10-2-1](https://github.com/ze25800000/movie-flask/blob/master/pic/10-2-1.jpg?raw=true)
+
+# 11 部署
+- 安装flask-script
+```
+pip install flask-script
+```
+- 修改manager.py
+```
+# coding:utf8
+from app import app
+from flask_script import Manager
+
+manager = Manager(app)
+
+if __name__ == "__main__":
+    app.run()
+
+```
+- 修改_init_.py，将app.debug改为False
+- 生成requirements.txt依赖包记录文件
+```
+pip freeze >requirements.txt
+```
+- 安装依赖
+```
+pip3 install -i https://pypi.douban.com/simple/ -r requirements.txt
+```
+
+- 装载数据库movie
+```
+create database movie;
+
+use movie;
+
+source movie.sql;
+```
+- 启动服务
+```
+nohup python3 manager.py runserver -h 127.0.0.1 -p 5000 &
+```
+- nginx反向代理
+```
+limit_conn_zone $binary_remote_addr zone=addr:5m;
+upstream movie {
+        server 127.0.0.1:5000;
+}
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        proxy_pass http://movie;
+    }
+    location ~ \.mp4$ {
+        mp4;
+        limit_conn addr 5;
+        limit_rate 1024k;
+        # rewrite ^/static/uploads/(.+?).mp4 /home/work/movie-flask/app/static/uploads/$1.mp4 permanent;
+    }
+}
+```
